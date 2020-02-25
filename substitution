@@ -1,0 +1,79 @@
+#include <cs50.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main(int argc, string argv[])
+{
+
+    if (strlen(argv[1]) != 26)
+    {
+        printf("Key must contain 26 characters.");
+        return 1;
+    }
+    if (argc != 2)
+    {
+        printf("Usage: ./substitution key");
+        return 1;
+    }
+// STORE THE ASCII VALUES OF THE KEY IN AN ARRAY CALLED KEY
+    int key [26];
+    for (int i = 0; i < strlen (argv[1]); i++)
+    {
+        if (!isalpha(argv[1][i]))
+        {
+            printf ("Usage: ./substitution key");
+            return 1;
+        }
+        key[i] = (argv[1][i]);
+    }
+// CHECK THAT THE KEY CONTAINS UNIQUE LETTERS
+    for (int v = 0; v < 26; v++)
+        {
+            for (int w = (v + 1); w < 27; w++)
+            {
+                if (key[w] == key[v])
+                {
+                printf ("Usage: ./substitution key");
+                return 1;
+                }
+            }
+        }
+    string plain = get_string("plaintext: ");
+    printf("ciphertext: ");
+// ALPHA LEARNS THE LETTERS OF THE PLAINTEXT AND IS USED AS A PLACEHOLDER TO LOCATE THE CORRESPONDING LETTER FROM THE KEY
+    for (int j = 0; j < strlen(plain); j++)
+    {
+        if (islower(plain[j]))
+        {
+        int alpha = 96;
+        do
+        {
+            (alpha ++);
+        }
+        while (alpha < plain[j]);
+        alpha -= 97;
+        plain[j] = key[alpha];
+        printf("%c", tolower(plain[j]));
+        }
+            else if (isupper(plain[j]))
+            {
+            int alpha = 64;
+            do
+            {
+            (alpha ++);
+            }
+            while (alpha < plain[j]);
+        alpha -= 65;
+        plain[j] = key[alpha];
+        printf("%c", toupper (plain[j]));
+        }
+        else
+        {
+            printf("%c", plain[j]);
+        }
+    }
+    printf("\n");
+}
