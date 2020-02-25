@@ -1,0 +1,128 @@
+#include <cs50.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+int main(void)
+{
+// CALCULATE LENGTH OF CREDIT CARD
+    long cc = get_long("Credit Card: ");
+    int counter = 0;
+    long dup = cc;
+    do
+    {
+        dup = dup / 10;
+        counter++;
+    }
+    while (dup > 0);
+    printf("%i digits \nodd digits: ", counter);
+
+    if (counter != 13 && counter != 15 && counter != 16)
+    {
+        printf("INVALID 1\n");
+        return 1;
+    }
+// FIND EVERY OTHER DIGIT STARTING FROM RIGHT TO LEFT AND MULTIPLY BY TWO; STORE IN ARRAY
+    long long j = 100;
+    long long k = 10;
+    long long h = 1;
+    int odd_digits[20];
+    int even_digits[20];
+    int number_of_ints_in_array = 0;
+    for (int i = 0; i < 8; i++)
+    {
+        odd_digits[i] = ((cc % j) / k) * 2;
+        j = j * 100;
+        k = k * 100;
+        number_of_ints_in_array++;
+        printf("%i, ", odd_digits[i]);
+    }
+    printf("\neven digits: ");
+//FIND REMAINING DIGITS OF CREDIT CARD AND STORE IN ARRAY
+    long long b = 10;
+    long long v = 1;
+    for (int i = 0; i < 8; i++)
+    {
+        even_digits[i] = ((cc % b) / v);
+        b = b * 100;
+        v = v * 100;
+        printf("%i, ", even_digits[i]);
+    }
+
+
+// ADD ALL DIGITS UP FROM FIRST ARRAY AND STORE IN digitcounter
+    int digitcounter = 0;
+        for (int l = 0; l < number_of_ints_in_array; l++)
+        {
+            if (odd_digits[l] >= 10)
+            {
+                digitcounter += (odd_digits[l] % 10) + 1;
+            }
+            else
+            {
+                digitcounter += odd_digits[l];
+            }
+        }
+// ADD ALL VALUES FROM SECOND ARRAY TO digitcounter
+    for (int w = 0; w < counter; w++)
+        {
+            digitcounter += even_digits[w];
+        }
+    printf("\ndigitcounter: %i\n", digitcounter);
+
+
+// CHECK IF SUM IS DIVISIBLE BY 10
+    if (digitcounter % 10 != 0)
+    {
+        printf("INVALID 2\n");
+        return 1;
+    }
+
+// TEST WHICH CREDIT CARD
+        int valid = 0;
+        int amex = 0;
+    if (counter == 15)
+    {
+        amex += cc / 10000000000000;
+    }
+    if (amex == 34 || amex == 37)
+        {
+            printf("AMEX\n");
+            valid ++;
+        }
+        int mast = 0;
+    if (counter == 16)
+        {
+        mast += cc / 100000000000000;
+        }
+        if (mast == 51 || mast == 52 || mast == 53 || mast == 54 || mast == 55 || mast == 22)
+        {
+            printf("MASTERCARD\n");
+            valid ++;
+        }
+        int visa = 0;
+    if (counter == 13)
+        {
+            visa += cc / 1000000000000;
+        }
+        if (visa == 4)
+        {
+            printf("VISA\n");
+            valid ++;
+            return 0;
+        }
+    if (counter == 16)
+        {
+            visa += cc / 1000000000000000;
+        }
+        if (visa == 4)
+        {
+            printf("VISA\n");
+            valid ++;
+        }
+else if (valid == 0)
+    {
+    printf("INVALID 3\n");
+    }
+}
+
